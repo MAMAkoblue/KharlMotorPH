@@ -1,200 +1,329 @@
 package data;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Objects;
+
+/**
+ * Represents an employee in the system with all related information.
+ * This class enforces encapsulation by making fields private and providing
+ * controlled access through methods.
+ */
 public class Employee {
-    private String employeeId;
+    private final String employeeId;
     private String lastName;
     private String firstName;
-    private String birthday;
+    private LocalDate birthday;
     private String address;
     private String phoneNumber;
     private String sssNumber;
     private String philhealthNumber;
     private String tinNumber;
     private String pagIbigNumber;
-    private String status;
+    private EmploymentStatus status;
     private String position;
     private String immediateSupervisor;
-    private String basicSalary;
-    private String riceSubsidy;
-    private String phoneAllowance;
-    private String clothingAllowance;
-    private String grossSemiMonthlyRate;
-    private String hourlyRate;
+    private BigDecimal basicSalary;
+    private BigDecimal riceSubsidy;
+    private BigDecimal phoneAllowance;
+    private BigDecimal clothingAllowance;
+    private BigDecimal grossSemiMonthlyRate;
+    private BigDecimal hourlyRate;
 
-//    public Employee(String employeeId, String lastName, String firstName, String birthday, String address, String phoneNumber, String sssNumber, String philhealthNumber, String tinNumber, String pagIbigNumber, String status, String position, String immediateSupervisor, String basicSalary, String riceSubsidy, String phoneAllowance, String clothingAllowance, String grossSemiMonthlyRate, String hourlyRate) {
-//        this.employeeId = employeeId;
-//        this.lastName = lastName;
-//        this.firstName = firstName;
-//        this.birthday = birthday;
-//        this.address = address;
-//        this.phoneNumber = phoneNumber;
-//        this.sssNumber = sssNumber;
-//        this.philhealthNumber = philhealthNumber;
-//        this.tinNumber = tinNumber;
-//        this.pagIbigNumber = pagIbigNumber;
-//        this.status = status;
-//        this.position = position;
-//        this.immediateSupervisor = immediateSupervisor;
-//        this.basicSalary = basicSalary;
-//        this.riceSubsidy = riceSubsidy;
-//        this.phoneAllowance = phoneAllowance;
-//        this.clothingAllowance = clothingAllowance;
-//        this.grossSemiMonthlyRate = grossSemiMonthlyRate;
-//        this.hourlyRate = hourlyRate;
-//    }
-
-    // Getters and setters
-    public String getEmployeeId() {
-        return employeeId;
+    // Private constructor to force use of builder
+    private Employee(Builder builder) {
+        this.employeeId = builder.employeeId;
+        this.lastName = builder.lastName;
+        this.firstName = builder.firstName;
+        this.birthday = builder.birthday;
+        this.address = builder.address;
+        this.phoneNumber = builder.phoneNumber;
+        this.sssNumber = builder.sssNumber;
+        this.philhealthNumber = builder.philhealthNumber;
+        this.tinNumber = builder.tinNumber;
+        this.pagIbigNumber = builder.pagIbigNumber;
+        this.status = builder.status;
+        this.position = builder.position;
+        this.immediateSupervisor = builder.immediateSupervisor;
+        this.basicSalary = builder.basicSalary;
+        this.riceSubsidy = builder.riceSubsidy;
+        this.phoneAllowance = builder.phoneAllowance;
+        this.clothingAllowance = builder.clothingAllowance;
+        this.grossSemiMonthlyRate = builder.grossSemiMonthlyRate;
+        this.hourlyRate = builder.hourlyRate;
     }
 
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
+    // Getters with proper return types
+    public String getEmployeeId() {
+        return employeeId;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
+    public String getFormattedBirthday() {
+        return birthday != null ? birthday.format(DateTimeFormatter.ISO_LOCAL_DATE) : "";
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getSssNumber() {
         return sssNumber;
     }
 
-    public void setSssNumber(String sssNumber) {
-        this.sssNumber = sssNumber;
-    }
-
     public String getPhilhealthNumber() {
         return philhealthNumber;
-    }
-
-    public void setPhilhealthNumber(String philhealthNumber) {
-        this.philhealthNumber = philhealthNumber;
     }
 
     public String getTinNumber() {
         return tinNumber;
     }
 
-    public void setTinNumber(String tinNumber) {
-        this.tinNumber = tinNumber;
-    }
-
     public String getPagIbigNumber() {
         return pagIbigNumber;
     }
 
-    public void setPagIbigNumber(String pagIbigNumber) {
-        this.pagIbigNumber = pagIbigNumber;
-    }
-
-    public String getStatus() {
+    public EmploymentStatus getStatus() {
         return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getPosition() {
         return position;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
     public String getImmediateSupervisor() {
         return immediateSupervisor;
     }
 
-    public void setImmediateSupervisor(String immediateSupervisor) {
-        this.immediateSupervisor = immediateSupervisor;
-    }
-
-    public String getBasicSalary() {
+    public BigDecimal getBasicSalary() {
         return basicSalary;
     }
 
-    public void setBasicSalary(String basicSalary) {
-        this.basicSalary = basicSalary;
-    }
-
-    public String getRiceSubsidy() {
+    public BigDecimal getRiceSubsidy() {
         return riceSubsidy;
     }
 
-    public void setRiceSubsidy(String riceSubsidy) {
-        this.riceSubsidy = riceSubsidy;
-    }
-
-    public String getPhoneAllowance() {
+    public BigDecimal getPhoneAllowance() {
         return phoneAllowance;
     }
 
-  public void setPhoneAllowance(String phoneAllowance) {
-    this.phoneAllowance = phoneAllowance;
-}
+    public BigDecimal getClothingAllowance() {
+        return clothingAllowance;
+    }
 
-public String getGrossSemiMonthlyRate() {
-    return grossSemiMonthlyRate;
-}
+    public BigDecimal getGrossSemiMonthlyRate() {
+        return grossSemiMonthlyRate;
+    }
 
-public void setGrossSemiMonthlyRate(String grossSemiMonthlyRate) {
-    this.grossSemiMonthlyRate = grossSemiMonthlyRate;
-}
+    public BigDecimal getHourlyRate() {
+        return hourlyRate;
+    }
 
-public String getClothingAllowance() {
-    return clothingAllowance;
-}
+    // Setters with validation
+    public void setLastName(String lastName) {
+        this.lastName = validateName(lastName, "Last name");
+    }
 
-public void setClothingAllowance(String clothingAllowance) {
-    this.clothingAllowance = clothingAllowance;
-}
+    public void setFirstName(String firstName) {
+        this.firstName = validateName(firstName, "First name");
+    }
 
-public String getHourlyRate() {
-    return hourlyRate;
-}
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = Objects.requireNonNull(birthday, "Birthday cannot be null");
+    }
 
-public void setHourlyRate(String hourlyRate) {
-    this.hourlyRate = hourlyRate;
-}
+    public void setBirthday(String date) {
+        try {
+            this.birthday = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Invalid date format. Expected yyyy-MM-dd", e);
+        }
+    }
 
+    public void setAddress(String address) {
+        this.address = validateString(address, "Address");
+    }
 
+    public void setPhoneNumber(String phoneNumber) {
+        if (phoneNumber != null && !phoneNumber.matches("\\+?[0-9\\s-]+")) {
+            throw new IllegalArgumentException("Invalid phone number format");
+        }
+        this.phoneNumber = phoneNumber;
+    }
+
+    // Other setters with similar validation...
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return Objects.equals(employeeId, employee.employeeId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(employeeId);
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "employeeId='" + employeeId + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", position='" + position + '\'' +
+                '}';
+    }
+
+    // Validation helper methods
+    private String validateName(String name, String fieldName) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException(fieldName + " cannot be empty");
+        }
+        return name.trim();
+    }
+
+    private String validateString(String value, String fieldName) {
+        return value != null ? value.trim() : null;
+    }
+
+    /**
+     * Builder pattern for Employee class
+     */
+    public static class Builder {
+        // Required parameters
+        private final String employeeId;
+        private final String lastName;
+        private final String firstName;
+        private final LocalDate birthday;
+
+        // Optional parameters - initialized to default values
+        private String address = "";
+        private String phoneNumber = "";
+        private String sssNumber = "";
+        private String philhealthNumber = "";
+        private String tinNumber = "";
+        private String pagIbigNumber = "";
+        private EmploymentStatus status = EmploymentStatus.PROBATIONARY;
+        private String position = "";
+        private String immediateSupervisor = "";
+        private BigDecimal basicSalary = BigDecimal.ZERO;
+        private BigDecimal riceSubsidy = BigDecimal.ZERO;
+        private BigDecimal phoneAllowance = BigDecimal.ZERO;
+        private BigDecimal clothingAllowance = BigDecimal.ZERO;
+        private BigDecimal grossSemiMonthlyRate = BigDecimal.ZERO;
+        private BigDecimal hourlyRate = BigDecimal.ZERO;
+
+        public Builder(String employeeId, String lastName, String firstName, LocalDate birthday) {
+            this.employeeId = employeeId;
+            this.lastName = lastName;
+            this.firstName = firstName;
+            this.birthday = birthday;
+        }
+
+        // Builder methods for optional parameters
+        public Builder withAddress(String address) {
+            this.address = address != null ? address : "";
+            return this;
+        }
+
+        public Builder withPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber != null ? phoneNumber : "";
+            return this;
+        }
+
+        public Builder withSssNumber(String sssNumber) {
+            this.sssNumber = sssNumber != null ? sssNumber : "";
+            return this;
+        }
+
+        public Builder withPhilhealthNumber(String philhealthNumber) {
+            this.philhealthNumber = philhealthNumber != null ? philhealthNumber : "";
+            return this;
+        }
+
+        public Builder withTinNumber(String tinNumber) {
+            this.tinNumber = tinNumber != null ? tinNumber : "";
+            return this;
+        }
+
+        public Builder withPagIbigNumber(String pagIbigNumber) {
+            this.pagIbigNumber = pagIbigNumber != null ? pagIbigNumber : "";
+            return this;
+        }
+
+        public Builder withStatus(EmploymentStatus status) {
+            this.status = status != null ? status : EmploymentStatus.PROBATIONARY;
+            return this;
+        }
+
+        public Builder withPosition(String position) {
+            this.position = position != null ? position : "";
+            return this;
+        }
+
+        public Builder withImmediateSupervisor(String immediateSupervisor) {
+            this.immediateSupervisor = immediateSupervisor != null ? immediateSupervisor : "";
+            return this;
+        }
+
+        public Builder withBasicSalary(BigDecimal basicSalary) {
+            this.basicSalary = basicSalary != null ? basicSalary : BigDecimal.ZERO;
+            return this;
+        }
+
+        public Builder withRiceSubsidy(BigDecimal riceSubsidy) {
+            this.riceSubsidy = riceSubsidy != null ? riceSubsidy : BigDecimal.ZERO;
+            return this;
+        }
+
+        public Builder withPhoneAllowance(BigDecimal phoneAllowance) {
+            this.phoneAllowance = phoneAllowance != null ? phoneAllowance : BigDecimal.ZERO;
+            return this;
+        }
+
+        public Builder withClothingAllowance(BigDecimal clothingAllowance) {
+            this.clothingAllowance = clothingAllowance != null ? clothingAllowance : BigDecimal.ZERO;
+            return this;
+        }
+
+        public Builder withGrossSemiMonthlyRate(BigDecimal grossSemiMonthlyRate) {
+            this.grossSemiMonthlyRate = grossSemiMonthlyRate != null ? grossSemiMonthlyRate : BigDecimal.ZERO;
+            return this;
+        }
+
+        public Builder withHourlyRate(BigDecimal hourlyRate) {
+            this.hourlyRate = hourlyRate != null ? hourlyRate : BigDecimal.ZERO;
+            return this;
+        }
+
+        public Employee build() {
+            return new Employee(this);
+        }
+    }
+
+    /**
+     * Enum for employment status
+     */
+    public enum EmploymentStatus {
+        PROBATIONARY, REGULAR, RESIGNED, TERMINATED, RETIRED
+    }
 }

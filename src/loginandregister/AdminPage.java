@@ -25,8 +25,11 @@ public class AdminPage extends javax.swing.JFrame {
     
     
     
- public void loadEmployeeData(String ignoredCsvFile) {
-    String[] columnNames = {"ID", "Last Name", "First Name", "Birthday", "Address", "Phone Number", "SSS #", "Philhealth #", "TIN #", "Pag-ibig #", "Status", "Position", "Immediate Supervisor", "Basic Salary", "Rice Subsidy", "Phone Allowance", "Clothing Allowance", "Gross Semi-monthly Rate", "Hourly Rate"};
+public void loadEmployeeData() {
+    String[] columnNames = {"ID", "Last Name", "First Name", "Birthday", "Address", "Phone Number", 
+        "SSS #", "Philhealth #", "TIN #", "Pag-ibig #", "Status", "Position", "Immediate Supervisor", 
+        "Basic Salary", "Rice Subsidy", "Phone Allowance", "Clothing Allowance", 
+        "Gross Semi-monthly Rate", "Hourly Rate"};
 
     DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
         @Override
@@ -38,36 +41,54 @@ public class AdminPage extends javax.swing.JFrame {
     try {
         EmployeeDAO dao = new EmployeeDAO();
         List<data.Employee> employees = dao.findAll();
-        for (data.Employee e : employees) {
-            String[] row = new String[] {
-                e.getEmployeeId(),
-                e.getLastName(),
-                e.getFirstName(),
-                e.getBirthday(),
-                e.getAddress(),
-                e.getPhoneNumber(),
-                e.getSssNumber(),
-                e.getPhilhealthNumber(),
-                e.getTinNumber(),
-                e.getPagIbigNumber(),
-                e.getStatus(),
-                e.getPosition(),
-                e.getImmediateSupervisor(),
-                e.getBasicSalary(),
-                e.getRiceSubsidy(),
-                e.getPhoneAllowance(),
-                e.getClothingAllowance(),
-                e.getGrossSemiMonthlyRate(),
-                e.getHourlyRate()
-            };
-            model.addRow(row);
+        
+        if (employees == null || employees.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No employee records found.", "Information", JOptionPane.INFORMATION_MESSAGE);
+            return;
         }
+        
+        for (data.Employee e : employees) {
+            if (e != null) {
+                String[] row = new String[] {
+                    e.getEmployeeId() != null ? e.getEmployeeId() : "",
+                    e.getLastName() != null ? e.getLastName() : "",
+                    e.getFirstName() != null ? e.getFirstName() : "",
+                    e.getBirthday() != null ? e.getBirthday() : "",
+                    e.getAddress() != null ? e.getAddress() : "",
+                    e.getPhoneNumber() != null ? e.getPhoneNumber() : "",
+                    e.getSssNumber() != null ? e.getSssNumber() : "",
+                    e.getPhilhealthNumber() != null ? e.getPhilhealthNumber() : "",
+                    e.getTinNumber() != null ? e.getTinNumber() : "",
+                    e.getPagIbigNumber() != null ? e.getPagIbigNumber() : "",
+                    e.getStatus() != null ? e.getStatus() : "",
+                    e.getPosition() != null ? e.getPosition() : "",
+                    e.getImmediateSupervisor() != null ? e.getImmediateSupervisor() : "",
+                    e.getBasicSalary() != null ? e.getBasicSalary() : "",
+                    e.getRiceSubsidy() != null ? e.getRiceSubsidy() : "",
+                    e.getPhoneAllowance() != null ? e.getPhoneAllowance() : "",
+                    e.getClothingAllowance() != null ? e.getClothingAllowance() : "",
+                    e.getGrossSemiMonthlyRate() != null ? e.getGrossSemiMonthlyRate() : "",
+                    e.getHourlyRate() != null ? e.getHourlyRate() : ""
+                };
+                model.addRow(row);
+            }
+        }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, 
+            "Database error: " + ex.getMessage(), 
+            "Database Error", 
+            JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
     } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Database error loading employees: " + ex.getMessage());
+        JOptionPane.showMessageDialog(this, 
+            "An unexpected error occurred: " + ex.getMessage(), 
+            "Error", 
+            JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
     }
 
     jTableDataBase.setModel(model);
- }
+}
  
  
     /**
