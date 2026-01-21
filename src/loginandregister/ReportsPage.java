@@ -52,12 +52,12 @@ public class ReportsPage extends JFrame {
             out.write("id,last_name,first_name,birthday,address,phone_number,sss,philhealth,tin,pagibig,status,position,supervisor,basic_salary,rice_subsidy,phone_allowance,clothing_allowance,gross_semi_monthly,hourly_rate\n");
             for (Employee e1 : list) {
                 out.write(String.join(",",
-                        safe(e1.getEmployeeId()), safe(e1.getLastName()), safe(e1.getFirstName()), safe(e1.getBirthday()),
+                        safe(e1.getEmployeeId()), safe(e1.getLastName()), safe(e1.getFirstName()), safe(e1.getFormattedBirthday()),
                         safe(e1.getAddress()), safe(e1.getPhoneNumber()), safe(e1.getSssNumber()), safe(e1.getPhilhealthNumber()),
-                        safe(e1.getTinNumber()), safe(e1.getPagIbigNumber()), safe(e1.getStatus()), safe(e1.getPosition()),
-                        safe(e1.getImmediateSupervisor()), safe(e1.getBasicSalary()), safe(e1.getRiceSubsidy()),
-                        safe(e1.getPhoneAllowance()), safe(e1.getClothingAllowance()), safe(e1.getGrossSemiMonthlyRate()),
-                        safe(e1.getHourlyRate())));
+                        safe(e1.getTinNumber()), safe(e1.getPagIbigNumber()), safe(e1.getStatus() != null ? e1.getStatus().name() : ""), safe(e1.getPosition()),
+                        safe(e1.getImmediateSupervisor()), safe(e1.getBasicSalary() != null ? e1.getBasicSalary().toPlainString() : ""), safe(e1.getRiceSubsidy() != null ? e1.getRiceSubsidy().toPlainString() : ""),
+                        safe(e1.getPhoneAllowance() != null ? e1.getPhoneAllowance().toPlainString() : ""), safe(e1.getClothingAllowance() != null ? e1.getClothingAllowance().toPlainString() : ""), safe(e1.getGrossSemiMonthlyRate() != null ? e1.getGrossSemiMonthlyRate().toPlainString() : ""),
+                        safe(e1.getHourlyRate() != null ? e1.getHourlyRate().toPlainString() : "")));
                 out.write("\n");
             }
             JOptionPane.showMessageDialog(this, "Employees exported.");
@@ -94,7 +94,7 @@ public class ReportsPage extends JFrame {
         }
     }
 
-    private static String safe(String s) { return s == null ? "" : s.replaceAll(",", " "); }
+    private static String safe(Object s) { return s == null ? "" : String.valueOf(s).replaceAll(",", " "); }
     private static String quoteCsv(String s) { return '"' + s.replace("\"","'") + '"'; }
     private static double nz(Double d) { return d == null ? 0.0 : d; }
 }

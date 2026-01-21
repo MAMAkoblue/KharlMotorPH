@@ -7,6 +7,9 @@ package loginandregister;
 import data.Employee;
 import data.TotalPay;
 import data.WithholdingTax;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class ViewEmployee extends javax.swing.JFrame {
    
@@ -485,12 +488,39 @@ public class ViewEmployee extends javax.swing.JFrame {
 
         }
 
-        Employee employee = new Employee();
-
         double dailyRate=hourlyRate*8;
         double basicSalary = dailyRate*monthlyValue;
 
-        employee.setBasicSalary(String.valueOf(basicSalary));
+        LocalDate birthdayDate;
+        try {
+            birthdayDate = LocalDate.parse(jTextFieldBirthDay1.getText().trim(), DateTimeFormatter.ISO_LOCAL_DATE);
+        } catch (Exception ex) {
+            try {
+                birthdayDate = LocalDate.parse(jTextFieldBirthDay1.getText().trim(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+            } catch (Exception ex2) {
+                birthdayDate = LocalDate.now();
+            }
+        }
+
+        BigDecimal riceSubsidy;
+        try { riceSubsidy = new BigDecimal(jTextFieldRiceSubsidy1.getText().trim()); } catch (Exception ex) { riceSubsidy = BigDecimal.ZERO; }
+        BigDecimal phoneAllowance;
+        try { phoneAllowance = new BigDecimal(jTextFieldPhoneAllowance1.getText().trim()); } catch (Exception ex) { phoneAllowance = BigDecimal.ZERO; }
+        BigDecimal clothingAllowance;
+        try { clothingAllowance = new BigDecimal(jTextFieldClothingAllowance1.getText().trim()); } catch (Exception ex) { clothingAllowance = BigDecimal.ZERO; }
+
+        Employee employee = new Employee.Builder(
+                jTextFieldEmpNum1.getText(),
+                jTextFieldLastName1.getText(),
+                jTextFieldFirstName1.getText(),
+                birthdayDate
+        )
+                .withBasicSalary(BigDecimal.valueOf(basicSalary))
+                .withRiceSubsidy(riceSubsidy)
+                .withPhoneAllowance(phoneAllowance)
+                .withClothingAllowance(clothingAllowance)
+                .withHourlyRate(BigDecimal.valueOf(hourlyRate))
+                .build();
 
         SalaryDeduction salaryDeduction = new SalaryDeduction();
         salaryDeduction.calculatePayroll(employee);
@@ -498,10 +528,6 @@ public class ViewEmployee extends javax.swing.JFrame {
         jTextFieldSSSContribution1.setText(String.valueOf(salaryDeduction.getSSS()));
         jTextFieldPhilHealthContribution1.setText(String.valueOf(salaryDeduction.getPhilDeduct()));
         jTextFieldPagIBIGContribution1.setText(String.valueOf(salaryDeduction.getPagibigDeduct()));
-
-        employee.setPhoneAllowance(jTextFieldPhoneAllowance1.getText());
-        employee.setRiceSubsidy(jTextFieldRiceSubsidy1.getText());
-        employee.setClothingAllowance(jTextFieldClothingAllowance1.getText());
 
         WithholdingTax withholdingtax = new WithholdingTax();
         withholdingtax.calculatePayroll(employee);

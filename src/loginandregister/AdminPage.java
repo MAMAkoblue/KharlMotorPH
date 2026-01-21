@@ -4,6 +4,7 @@
  */
  package loginandregister;
  import javax.swing.table.DefaultTableModel;
+ import java.sql.SQLException;
  import java.util.List;
  import javax.swing.JOptionPane;
  import data.EmployeeDAO;
@@ -53,22 +54,22 @@ public void loadEmployeeData() {
                     e.getEmployeeId() != null ? e.getEmployeeId() : "",
                     e.getLastName() != null ? e.getLastName() : "",
                     e.getFirstName() != null ? e.getFirstName() : "",
-                    e.getBirthday() != null ? e.getBirthday() : "",
+                    e.getBirthday() != null ? e.getFormattedBirthday() : "",
                     e.getAddress() != null ? e.getAddress() : "",
                     e.getPhoneNumber() != null ? e.getPhoneNumber() : "",
                     e.getSssNumber() != null ? e.getSssNumber() : "",
                     e.getPhilhealthNumber() != null ? e.getPhilhealthNumber() : "",
                     e.getTinNumber() != null ? e.getTinNumber() : "",
                     e.getPagIbigNumber() != null ? e.getPagIbigNumber() : "",
-                    e.getStatus() != null ? e.getStatus() : "",
+                    e.getStatus() != null ? e.getStatus().name() : "",
                     e.getPosition() != null ? e.getPosition() : "",
                     e.getImmediateSupervisor() != null ? e.getImmediateSupervisor() : "",
-                    e.getBasicSalary() != null ? e.getBasicSalary() : "",
-                    e.getRiceSubsidy() != null ? e.getRiceSubsidy() : "",
-                    e.getPhoneAllowance() != null ? e.getPhoneAllowance() : "",
-                    e.getClothingAllowance() != null ? e.getClothingAllowance() : "",
-                    e.getGrossSemiMonthlyRate() != null ? e.getGrossSemiMonthlyRate() : "",
-                    e.getHourlyRate() != null ? e.getHourlyRate() : ""
+                    e.getBasicSalary() != null ? e.getBasicSalary().toPlainString() : "",
+                    e.getRiceSubsidy() != null ? e.getRiceSubsidy().toPlainString() : "",
+                    e.getPhoneAllowance() != null ? e.getPhoneAllowance().toPlainString() : "",
+                    e.getClothingAllowance() != null ? e.getClothingAllowance().toPlainString() : "",
+                    e.getGrossSemiMonthlyRate() != null ? e.getGrossSemiMonthlyRate().toPlainString() : "",
+                    e.getHourlyRate() != null ? e.getHourlyRate().toPlainString() : ""
                 };
                 model.addRow(row);
             }
@@ -88,6 +89,10 @@ public void loadEmployeeData() {
     }
 
     jTableDataBase.setModel(model);
+}
+
+public void loadEmployeeData(String ignoredCsvFile) {
+    loadEmployeeData();
 }
  
  

@@ -5,8 +5,11 @@
 package loginandregister;
 
 import javax.swing.JOptionPane;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import data.EmployeeDAO;
 import data.Employee;
@@ -38,31 +41,26 @@ public class EditEmployee extends javax.swing.JFrame {
             jTextFieldFirstName1.setText(de.getFirstName());
             jTextFieldLastName1.setText(de.getLastName());
             jTextFieldAddress.setText(de.getAddress());
-            String birthday = de.getBirthday();
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-            Date birthdayDate;
-            try {
-                birthdayDate = sdf.parse(birthday);
-            } catch (ParseException e) {
-                JOptionPane.showMessageDialog(this, "Error parsing birthday: " + e.getMessage());
-                return;
+            LocalDate birthday = de.getBirthday();
+            if (birthday != null) {
+                Date birthdayDate = Date.from(birthday.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                jCalendarBirthday1.setDate(birthdayDate);
             }
-            jCalendarBirthday1.setDate(birthdayDate);
             jCalendarBirthday1.repaint();
             jTextFieldPhoneNum1.setText(de.getPhoneNumber());
             jTextFieldSSSNum1.setText(de.getSssNumber());
             jTextFieldPhilHealthNum1.setText(de.getPhilhealthNumber());
             jTextFieldTINNum1.setText(de.getTinNumber());
             jTextFieldPagibigNum1.setText(de.getPagIbigNumber());
-            jComboBoxStatus1.setSelectedItem(de.getStatus());
+            jComboBoxStatus1.setSelectedItem(de.getStatus() != null ? de.getStatus().name() : "");
             jComboBoxPosition1.setSelectedItem(de.getPosition());
             jComboBoxSupervisor1.setSelectedItem(de.getImmediateSupervisor());
-            jTextFieldBasicSalary1.setText(de.getBasicSalary());
-            jTextFieldRiceSubsidy1.setText(de.getRiceSubsidy());
-            jTextFieldPhoneAllowance1.setText(de.getPhoneAllowance());
-            jTextFieldClothingAllowance1.setText(de.getClothingAllowance());
-            jTextFieldGrossSemiMonthly1.setText(de.getGrossSemiMonthlyRate());
-            jTextFieldHourlyRate1.setText(de.getHourlyRate());
+            jTextFieldBasicSalary1.setText(de.getBasicSalary() != null ? de.getBasicSalary().toPlainString() : "");
+            jTextFieldRiceSubsidy1.setText(de.getRiceSubsidy() != null ? de.getRiceSubsidy().toPlainString() : "");
+            jTextFieldPhoneAllowance1.setText(de.getPhoneAllowance() != null ? de.getPhoneAllowance().toPlainString() : "");
+            jTextFieldClothingAllowance1.setText(de.getClothingAllowance() != null ? de.getClothingAllowance().toPlainString() : "");
+            jTextFieldGrossSemiMonthly1.setText(de.getGrossSemiMonthlyRate() != null ? de.getGrossSemiMonthlyRate().toPlainString() : "");
+            jTextFieldHourlyRate1.setText(de.getHourlyRate() != null ? de.getHourlyRate().toPlainString() : "");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage());
         }
@@ -442,26 +440,51 @@ public class EditEmployee extends javax.swing.JFrame {
         }
 
         try {
-            Employee e = new Employee();
-            e.setEmployeeId(jTextFieldEmpNum1.getText());
-            e.setLastName(jTextFieldLastName1.getText());
-            e.setFirstName(jTextFieldFirstName1.getText());
-            e.setBirthday(birthday);
-            e.setAddress(jTextFieldAddress.getText());
-            e.setPhoneNumber(jTextFieldPhoneNum1.getText());
-            e.setSssNumber(jTextFieldSSSNum1.getText());
-            e.setPhilhealthNumber(jTextFieldPhilHealthNum1.getText());
-            e.setTinNumber(jTextFieldTINNum1.getText());
-            e.setPagIbigNumber(jTextFieldPagibigNum1.getText());
-            e.setStatus((String) jComboBoxStatus1.getSelectedItem());
-            e.setPosition((String) jComboBoxPosition1.getSelectedItem());
-            e.setImmediateSupervisor((String) jComboBoxSupervisor1.getSelectedItem());
-            e.setBasicSalary(jTextFieldBasicSalary1.getText());
-            e.setRiceSubsidy(jTextFieldRiceSubsidy1.getText());
-            e.setPhoneAllowance(jTextFieldPhoneAllowance1.getText());
-            e.setClothingAllowance(jTextFieldClothingAllowance1.getText());
-            e.setGrossSemiMonthlyRate(jTextFieldGrossSemiMonthly1.getText());
-            e.setHourlyRate(jTextFieldHourlyRate1.getText());
+            String id = jTextFieldEmpNum1.getText();
+            String statusText = (String) jComboBoxStatus1.getSelectedItem();
+
+            Employee.EmploymentStatus statusEnum;
+            try {
+                statusEnum = Employee.EmploymentStatus.valueOf(statusText);
+            } catch (Exception ignore) {
+                statusEnum = Employee.EmploymentStatus.PROBATIONARY;
+            }
+
+            Date birthdayRaw = jCalendarBirthday1.getDate();
+            if (birthdayRaw == null) {
+                throw new IllegalArgumentException("Birthday is required");
+            }
+            LocalDate birthdayDate = birthdayRaw.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            BigDecimal basicSalary = new BigDecimal(jTextFieldBasicSalary1.getText().trim());
+            BigDecimal riceSubsidy = new BigDecimal(jTextFieldRiceSubsidy1.getText().trim());
+            BigDecimal phoneAllowance = new BigDecimal(jTextFieldPhoneAllowance1.getText().trim());
+            BigDecimal clothingAllowance = new BigDecimal(jTextFieldClothingAllowance1.getText().trim());
+            BigDecimal grossSemiMonthly = new BigDecimal(jTextFieldGrossSemiMonthly1.getText().trim());
+            BigDecimal hourlyRate = new BigDecimal(jTextFieldHourlyRate1.getText().trim());
+
+            Employee e = new Employee.Builder(
+                    id,
+                    jTextFieldLastName1.getText(),
+                    jTextFieldFirstName1.getText(),
+                    birthdayDate
+            )
+                    .withAddress(jTextFieldAddress.getText())
+                    .withPhoneNumber(jTextFieldPhoneNum1.getText())
+                    .withSssNumber(jTextFieldSSSNum1.getText())
+                    .withPhilhealthNumber(jTextFieldPhilHealthNum1.getText())
+                    .withTinNumber(jTextFieldTINNum1.getText())
+                    .withPagIbigNumber(jTextFieldPagibigNum1.getText())
+                    .withStatus(statusEnum)
+                    .withPosition((String) jComboBoxPosition1.getSelectedItem())
+                    .withImmediateSupervisor((String) jComboBoxSupervisor1.getSelectedItem())
+                    .withBasicSalary(basicSalary)
+                    .withRiceSubsidy(riceSubsidy)
+                    .withPhoneAllowance(phoneAllowance)
+                    .withClothingAllowance(clothingAllowance)
+                    .withGrossSemiMonthlyRate(grossSemiMonthly)
+                    .withHourlyRate(hourlyRate)
+                    .build();
 
             EmployeeDAO dao = new EmployeeDAO();
             boolean ok = dao.update(e);

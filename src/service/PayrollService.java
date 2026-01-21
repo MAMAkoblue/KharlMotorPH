@@ -1,5 +1,6 @@
 package service;
 
+import java.math.BigDecimal;
 import data.Employee;
 import data.WithholdingTax;
 import data.TotalPay;
@@ -58,7 +59,7 @@ public class PayrollService {
     private boolean isValidEmployee(Employee employee) {
         return employee != null 
             && employee.getBasicSalary() != null 
-            && !employee.getBasicSalary().trim().isEmpty();
+            && employee.getBasicSalary().compareTo(BigDecimal.ZERO) >= 0;
     }
     
     private WithholdingTax calculateWithholdingTax(Employee employee) {
@@ -75,7 +76,7 @@ public class PayrollService {
     
     private String formatDetails(WithholdingTax withholdingTax) {
         return String.format("Withholding Tax: %.2f, Statutory Deductions: %.2f",
-            WithholdingTax.getWithHoldingTax(),
+            (double) WithholdingTax.getWithHoldingTax(),
             withholdingTax.getTotalDeduction());
     }
     

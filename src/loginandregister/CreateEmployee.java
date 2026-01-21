@@ -7,6 +7,10 @@ package loginandregister;
 
 import javax.swing.JOptionPane;
 import java.text.SimpleDateFormat;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import data.EmployeeDAO;
 import data.Employee;
@@ -432,26 +436,48 @@ public class CreateEmployee extends javax.swing.JFrame {
         }
 
         try {
-            Employee e = new Employee();
-            e.setEmployeeId(id);
-            e.setLastName(jTextFieldLastName.getText());
-            e.setFirstName(jTextFieldFirstName.getText());
-            e.setBirthday(birthday);
-            e.setAddress(jTextFieldAddress.getText());
-            e.setPhoneNumber(jTextFieldPhoneNum.getText());
-            e.setSssNumber(jTextFieldSSSNum.getText());
-            e.setPhilhealthNumber(jTextFieldPhilHealthNum.getText());
-            e.setTinNumber(jTextFieldTINNum.getText());
-            e.setPagIbigNumber(jTextFieldPagibigNum.getText());
-            e.setStatus(status);
-            e.setPosition(position);
-            e.setImmediateSupervisor(supervisor);
-            e.setBasicSalary(jTextFieldBasicSalary.getText());
-            e.setRiceSubsidy(jTextFieldRiceSubsidy.getText());
-            e.setPhoneAllowance(jTextFieldPhoneAllowance.getText());
-            e.setClothingAllowance(jTextFieldClothingAllowance.getText());
-            e.setGrossSemiMonthlyRate(jTextFieldGrossSemiMonthly.getText());
-            e.setHourlyRate(jTextFieldHourlyRate.getText());
+            Employee.EmploymentStatus statusEnum;
+            try {
+                statusEnum = Employee.EmploymentStatus.valueOf(status);
+            } catch (Exception ignore) {
+                statusEnum = Employee.EmploymentStatus.PROBATIONARY;
+            }
+
+            Date birthdayRaw = jCalendarBirthday.getDate();
+            if (birthdayRaw == null) {
+                throw new IllegalArgumentException("Birthday is required");
+            }
+            LocalDate birthdayDate = birthdayRaw.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            BigDecimal basicSalary = new BigDecimal(jTextFieldBasicSalary.getText().trim());
+            BigDecimal riceSubsidy = new BigDecimal(jTextFieldRiceSubsidy.getText().trim());
+            BigDecimal phoneAllowance = new BigDecimal(jTextFieldPhoneAllowance.getText().trim());
+            BigDecimal clothingAllowance = new BigDecimal(jTextFieldClothingAllowance.getText().trim());
+            BigDecimal grossSemiMonthly = new BigDecimal(jTextFieldGrossSemiMonthly.getText().trim());
+            BigDecimal hourlyRate = new BigDecimal(jTextFieldHourlyRate.getText().trim());
+
+            Employee e = new Employee.Builder(
+                    id,
+                    jTextFieldLastName.getText(),
+                    jTextFieldFirstName.getText(),
+                    birthdayDate
+            )
+                    .withAddress(jTextFieldAddress.getText())
+                    .withPhoneNumber(jTextFieldPhoneNum.getText())
+                    .withSssNumber(jTextFieldSSSNum.getText())
+                    .withPhilhealthNumber(jTextFieldPhilHealthNum.getText())
+                    .withTinNumber(jTextFieldTINNum.getText())
+                    .withPagIbigNumber(jTextFieldPagibigNum.getText())
+                    .withStatus(statusEnum)
+                    .withPosition(position)
+                    .withImmediateSupervisor(supervisor)
+                    .withBasicSalary(basicSalary)
+                    .withRiceSubsidy(riceSubsidy)
+                    .withPhoneAllowance(phoneAllowance)
+                    .withClothingAllowance(clothingAllowance)
+                    .withGrossSemiMonthlyRate(grossSemiMonthly)
+                    .withHourlyRate(hourlyRate)
+                    .build();
 
             EmployeeDAO dao = new EmployeeDAO();
             boolean ok = dao.create(e);

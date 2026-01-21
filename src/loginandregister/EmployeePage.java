@@ -12,6 +12,9 @@ package loginandregister;
 import data.Employee;
 import data.TotalPay;
 import data.WithholdingTax;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class EmployeePage extends javax.swing.JFrame {
     private EmployeeCSVReader reader;
@@ -427,27 +430,27 @@ public class EmployeePage extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonBackActionPerformed
 
     private void jTextFieldEmpNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldEmpNumActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jTextFieldEmpNumActionPerformed
 
     private void jComboBoxMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMonthActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jComboBoxMonthActionPerformed
 
     private void jTextFieldHourlyRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldHourlyRateActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jTextFieldHourlyRateActionPerformed
 
     private void jTextFieldSSSContributionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSSSContributionActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jTextFieldSSSContributionActionPerformed
 
     private void jTextFieldPhilHealthContributionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPhilHealthContributionActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jTextFieldPhilHealthContributionActionPerformed
 
     private void jTextFieldPagIBIGContributionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPagIBIGContributionActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jTextFieldPagIBIGContributionActionPerformed
 
     private void jButtonComputeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonComputeActionPerformed
@@ -504,13 +507,39 @@ public class EmployeePage extends javax.swing.JFrame {
 
         }
 
-        Employee employee = new Employee();
-
         double dailyRate=hourlyRate*8;
         double basicSalary = dailyRate*monthlyValue;
 
-        employee.setBasicSalary(String.valueOf(basicSalary));
-        //    employee.setPhoneAllowance(jTextFieldPhoneAllowance.getText());
+        LocalDate birthdayDate;
+        try {
+            birthdayDate = LocalDate.parse(jTextFieldBirthDay.getText().trim(), DateTimeFormatter.ISO_LOCAL_DATE);
+        } catch (Exception ex) {
+            try {
+                birthdayDate = LocalDate.parse(jTextFieldBirthDay.getText().trim(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+            } catch (Exception ex2) {
+                birthdayDate = LocalDate.now();
+            }
+        }
+
+        BigDecimal riceSubsidy;
+        try { riceSubsidy = new BigDecimal(jTextFieldRiceSubsidy.getText().trim()); } catch (Exception ex) { riceSubsidy = BigDecimal.ZERO; }
+        BigDecimal phoneAllowance;
+        try { phoneAllowance = new BigDecimal(jTextFieldPhoneAllowance.getText().trim()); } catch (Exception ex) { phoneAllowance = BigDecimal.ZERO; }
+        BigDecimal clothingAllowance;
+        try { clothingAllowance = new BigDecimal(jTextFieldClothingAllowance.getText().trim()); } catch (Exception ex) { clothingAllowance = BigDecimal.ZERO; }
+
+        Employee employee = new Employee.Builder(
+                jTextFieldEmpNum.getText(),
+                jTextFieldLastName.getText(),
+                jTextFieldFirstName.getText(),
+                birthdayDate
+        )
+                .withBasicSalary(BigDecimal.valueOf(basicSalary))
+                .withRiceSubsidy(riceSubsidy)
+                .withPhoneAllowance(phoneAllowance)
+                .withClothingAllowance(clothingAllowance)
+                .withHourlyRate(BigDecimal.valueOf(hourlyRate))
+                .build();
 
         SalaryDeduction salaryDeduction = new SalaryDeduction();
         salaryDeduction.calculatePayroll(employee);
@@ -518,10 +547,6 @@ public class EmployeePage extends javax.swing.JFrame {
         jTextFieldSSSContribution.setText(String.valueOf(salaryDeduction.getSSS()));
         jTextFieldPhilHealthContribution.setText(String.valueOf(salaryDeduction.getPhilDeduct()));
         jTextFieldPagIBIGContribution.setText(String.valueOf(salaryDeduction.getPagibigDeduct()));
-
-        employee.setPhoneAllowance(jTextFieldPhoneAllowance.getText());
-        employee.setRiceSubsidy(jTextFieldRiceSubsidy.getText());
-        employee.setClothingAllowance(jTextFieldClothingAllowance.getText());
 
         WithholdingTax withholdingtax = new WithholdingTax();
         withholdingtax.calculatePayroll(employee);
@@ -535,7 +560,7 @@ public class EmployeePage extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonComputeActionPerformed
 
     private void jButtonFileLeaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileLeaveActionPerformed
-        // TODO add your handling code here:
+        
         UserAccount userAcc = new UserAccount();
         userAcc.setEmployeeID(jTextFieldEmpNum.getText());
         new LeaveRequestForm(userAcc).setVisible(true);
@@ -642,5 +667,5 @@ public class EmployeePage extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldStatus;
     private javax.swing.JTextField jTextFieldSupervisor;
     private javax.swing.JTextField jTextFieldTINNum;
-    // End of variables declaration//GEN-END:variables
+
 }

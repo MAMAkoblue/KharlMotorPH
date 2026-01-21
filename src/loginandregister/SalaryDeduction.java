@@ -10,7 +10,7 @@ public class SalaryDeduction {
     private  double PhilDeduct;
     
     public void calculatePayroll(Employee employee) {
-    double basicsalary = Double.parseDouble(employee.getBasicSalary());
+    double basicsalary = employee != null && employee.getBasicSalary() != null ? employee.getBasicSalary().doubleValue() : 0.0;
     
        SSS = basicsalary;
         

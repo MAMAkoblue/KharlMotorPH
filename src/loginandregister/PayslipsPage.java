@@ -82,7 +82,7 @@ public class PayslipsPage extends JFrame {
             PayslipDAO payslipDAO = new PayslipDAO();
             PayrollService payroll = new PayrollService();
             for (Employee emp : employees) {
-                PayrollService.Result r = payroll.computeForEmployee(emp);
+                PayrollService.PayrollResult r = payroll.computeForEmployee(emp);
                 Payslip p = new Payslip();
                 p.payrollRunId = payrollRunId;
                 p.employeeId = emp.getEmployeeId();

@@ -65,22 +65,22 @@ public class EmployeeService {
             StringUtils.nullToEmpty(e.getEmployeeId()),
             StringUtils.nullToEmpty(e.getLastName()),
             StringUtils.nullToEmpty(e.getFirstName()),
-            StringUtils.nullToEmpty(e.getBirthday()),
+            StringUtils.nullToEmpty(e.getFormattedBirthday()),
             StringUtils.nullToEmpty(e.getAddress()),
             StringUtils.nullToEmpty(e.getPhoneNumber()),
             StringUtils.nullToEmpty(e.getSssNumber()),
             StringUtils.nullToEmpty(e.getPhilhealthNumber()),
             StringUtils.nullToEmpty(e.getTinNumber()),
             StringUtils.nullToEmpty(e.getPagIbigNumber()),
-            StringUtils.nullToEmpty(e.getStatus()),
+            StringUtils.nullToEmpty(e.getStatus() != null ? e.getStatus().name() : ""),
             StringUtils.nullToEmpty(e.getPosition()),
             StringUtils.nullToEmpty(e.getImmediateSupervisor()),
-            StringUtils.nullToEmpty(e.getBasicSalary()),
-            StringUtils.nullToEmpty(e.getRiceSubsidy()),
-            StringUtils.nullToEmpty(e.getPhoneAllowance()),
-            StringUtils.nullToEmpty(e.getClothingAllowance()),
-            StringUtils.nullToEmpty(e.getGrossSemiMonthlyRate()),
-            StringUtils.nullToEmpty(e.getHourlyRate())
+            StringUtils.nullToEmpty(e.getBasicSalary() != null ? e.getBasicSalary().toPlainString() : ""),
+            StringUtils.nullToEmpty(e.getRiceSubsidy() != null ? e.getRiceSubsidy().toPlainString() : ""),
+            StringUtils.nullToEmpty(e.getPhoneAllowance() != null ? e.getPhoneAllowance().toPlainString() : ""),
+            StringUtils.nullToEmpty(e.getClothingAllowance() != null ? e.getClothingAllowance().toPlainString() : ""),
+            StringUtils.nullToEmpty(e.getGrossSemiMonthlyRate() != null ? e.getGrossSemiMonthlyRate().toPlainString() : ""),
+            StringUtils.nullToEmpty(e.getHourlyRate() != null ? e.getHourlyRate().toPlainString() : "")
         };
     }
     
