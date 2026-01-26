@@ -2,11 +2,6 @@ package loginandregister;
 
 import data.PayrollRunDAO;
 import data.PayrollRunDAO.PayrollRun;
-import data.PayslipDAO;
-import data.PayslipDAO.Payslip;
-import data.EmployeeDAO;
-import data.EmployeeDAO; // using data.Employee model
-import data.EmployeeDAO; // for compile safety if optimizer removes
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
