@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="KharlMotorPH" default="run" basedir=".">
-    <description>Builds, tests, and runs the KharlMotorPH Payroll System project.</description>
+    <description>Builds and runs the KharlMotorPH Payroll System</description>
     
     <property name="src.dir" value="src"/>
     <property name="build.dir" value="build"/>
@@ -24,16 +24,20 @@
     </target>
 
     <target name="compile" depends="init">
+        <echo message="Compiling KharlMotorPH Payroll System..."/>
         <javac srcdir="${src.dir}" 
                destdir="${classes.dir}" 
                classpathref="classpath"
                includeantruntime="false"
-               debug="true">
+               debug="true"
+               failonerror="true">
             <compilerarg value="-Xlint:unchecked"/>
         </javac>
+        <echo message="Compilation completed successfully!"/>
     </target>
 
     <target name="jar" depends="compile">
+        <echo message="Creating executable JAR..."/>
         <jar destfile="${jar.dir}/${jar.file}" basedir="${classes.dir}">
             <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>
@@ -41,16 +45,33 @@
             </manifest>
             <fileset dir="${src.dir}" includes="**/*.properties"/>
         </jar>
+        <echo message="JAR created: ${jar.dir}/${jar.file}"/>
     </target>
 
-    <target name="run" depends="jar">
-        <java jar="${jar.dir}/${jar.file}" fork="true" classpathref="classpath"/>
+    <target name="run" depends="jar" description="Run the KharlMotorPH Payroll System">
+        <echo message="Starting KharlMotorPH Payroll System..."/>
+        <java jar="${jar.dir}/${jar.file}" fork="true" classpathref="classpath">
+            <jvmarg value="-Dfile.encoding=UTF-8"/>
+        </java>
     </target>
     
-    <target name="debug" depends="compile">
+    <target name="debug" depends="compile" description="Debug the application">
+        <echo message="Starting debug mode..."/>
         <java classname="${main.class}" fork="true" classpathref="classpath">
             <jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"/>
+            <jvmarg value="-Dfile.encoding=UTF-8"/>
+        </java>
+    </target>
+    
+    <target name="quick-run" depends="compile" description="Run without creating JAR">
+        <echo message="Quick run - starting KharlMotorPH Payroll System..."/>
+        <java classname="${main.class}" fork="true" classpathref="classpath">
+            <classpath>
+                <pathelement location="${classes.dir}"/>
+                <fileset dir="${lib.dir}" includes="**/*.jar"/>
+            </classpath>
+            <jvmarg value="-Dfile.encoding=UTF-8"/>
         </java>
     </target>
 </project>
