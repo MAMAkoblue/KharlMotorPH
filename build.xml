@@ -41,7 +41,7 @@
         <jar destfile="${jar.dir}/${jar.file}" basedir="${classes.dir}">
             <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>
-                <attribute name="Class-Path" value="sqlite-jdbc.jar jcalendar-1.4.jar opencsv-3.8.jar slf4j-api.jar slf4j-simple.jar"/>
+                <attribute name="Class-Path" value="sqlite-jdbc.jar jcalendar-1.4.jar opencsv-3.8.jar slf4j-api.jar slf4j-simple.jar absolutelayout/AbsoluteLayout.jar"/>
             </manifest>
             <fileset dir="${src.dir}" includes="**/*.properties"/>
         </jar>
