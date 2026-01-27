@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * SQLite database helper (single-file DB: KharlMotorPH.db)
@@ -129,9 +130,10 @@ public class Database {
                     String[] u = line.split(delim);
                     if (u.length < 3) continue;
                     String role = (u.length >= 4 && u[3] != null && !u[3].isEmpty()) ? u[3] : "Employee";
+                    String hashedPassword = BCrypt.hashpw(u[2], BCrypt.gensalt(12));
                     ps.setString(1, u[0]);
                     ps.setString(2, u[1]);
-                    ps.setString(3, u[2]);
+                    ps.setString(3, hashedPassword);
                     ps.setString(4, role);
                     ps.addBatch();
                 }

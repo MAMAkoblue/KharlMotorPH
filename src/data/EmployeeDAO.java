@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class EmployeeDAO {
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
     public List<Employee> findAll() throws SQLException {
         String sql = "SELECT * FROM employees ORDER BY id";
@@ -136,11 +136,32 @@ public class EmployeeDAO {
     }
 
     private Employee map(ResultSet rs) throws SQLException {
+        LocalDate birthday = null;
+        try {
+            String birthdayStr = rs.getString("birthday");
+            if (birthdayStr != null && !birthdayStr.isEmpty()) {
+                birthday = LocalDate.parse(birthdayStr, DATE_FORMATTER);
+            }
+        } catch (Exception e) {
+            // If date parsing fails, use null
+            System.err.println("Warning: Could not parse birthday date: " + rs.getString("birthday"));
+        }
+        
+        Employee.EmploymentStatus status = Employee.EmploymentStatus.REGULAR; // default
+        try {
+            String statusStr = rs.getString("status");
+            if (statusStr != null && !statusStr.isEmpty()) {
+                status = Employee.EmploymentStatus.valueOf(statusStr.toUpperCase());
+            }
+        } catch (Exception e) {
+            System.err.println("Warning: Could not parse employment status: " + rs.getString("status"));
+        }
+        
         return new Employee.Builder(
                 rs.getString("id"),
                 rs.getString("last_name"),
                 rs.getString("first_name"),
-                LocalDate.parse(rs.getString("birthday"), DATE_FORMATTER)
+                birthday
             )
             .withAddress(rs.getString("address"))
             .withPhoneNumber(rs.getString("phone_number"))
@@ -148,7 +169,7 @@ public class EmployeeDAO {
             .withPhilhealthNumber(rs.getString("philhealth_number"))
             .withTinNumber(rs.getString("tin_number"))
             .withPagIbigNumber(rs.getString("pagibig_number"))
-            .withStatus(Employee.EmploymentStatus.valueOf(rs.getString("status")))
+            .withStatus(status)
             .withPosition(rs.getString("position"))
             .withImmediateSupervisor(rs.getString("immediate_supervisor"))
             .withBasicSalary(rs.getBigDecimal("basic_salary") != null ? rs.getBigDecimal("basic_salary") : BigDecimal.ZERO)
