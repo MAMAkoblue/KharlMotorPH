@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class EmployeeDAO {
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;
+    private static final DateTimeFormatter DATE_FORMATTER =
+        DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
     public List<Employee> findAll() throws SQLException {
         String sql = "SELECT * FROM employees ORDER BY id";
@@ -148,7 +149,7 @@ public class EmployeeDAO {
             .withPhilhealthNumber(rs.getString("philhealth_number"))
             .withTinNumber(rs.getString("tin_number"))
             .withPagIbigNumber(rs.getString("pagibig_number"))
-            .withStatus(Employee.EmploymentStatus.valueOf(rs.getString("status")))
+            .withStatus(Employee.EmploymentStatus.valueOf(rs.getString("status").toUpperCase()))
             .withPosition(rs.getString("position"))
             .withImmediateSupervisor(rs.getString("immediate_supervisor"))
             .withBasicSalary(rs.getBigDecimal("basic_salary") != null ? rs.getBigDecimal("basic_salary") : BigDecimal.ZERO)
