@@ -10,6 +10,7 @@ import data.WithholdingTax;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
 
 public class ViewEmployee extends javax.swing.JFrame {
    
@@ -23,6 +24,16 @@ public class ViewEmployee extends javax.swing.JFrame {
         reader = new EmployeeCSVReader("MotorPH.csv");
         String employeeID = userAcc.getEmployeeID();
         String[] employeeData = reader.searchEmployee(employeeID);
+        
+        if (employeeData == null) {
+            JOptionPane.showMessageDialog(this, "Employee not found!");
+            return; // stop loading the form
+        }
+        
+        boolean isNewEmployee = (employeeData[13] == null || employeeData[13].trim().isEmpty()); // Basic Salary
+        if (isNewEmployee) {
+            JOptionPane.showMessageDialog(this, "This is a newly created employee and has no payroll records yet.");
+        }
         
         jTextFieldEmpNum1.setText(employeeData[0]);
         jTextFieldFirstName1.setText(employeeData[2]);
