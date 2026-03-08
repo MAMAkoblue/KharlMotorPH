@@ -137,19 +137,28 @@ public class EmployeeDAO {
     }
 
     private Employee map(ResultSet rs) throws SQLException {
+        String statusStr = rs.getString("status");
+        Employee.EmploymentStatus status;
+        
+        try {
+            status = Employee.EmploymentStatus.valueOf(statusStr.toUpperCase());
+        } catch (Exception ex) {
+            status = Employee.EmploymentStatus.REGULAR; // fallback
+        }
+        
         return new Employee.Builder(
-                rs.getString("id"),
-                rs.getString("last_name"),
-                rs.getString("first_name"),
-                LocalDate.parse(rs.getString("birthday"), DATE_FORMATTER)
-            )
+            rs.getString("id"),
+            rs.getString("last_name"),
+            rs.getString("first_name"),
+            LocalDate.parse(rs.getString("birthday"), DATE_FORMATTER)
+        )
             .withAddress(rs.getString("address"))
             .withPhoneNumber(rs.getString("phone_number"))
             .withSssNumber(rs.getString("sss_number"))
             .withPhilhealthNumber(rs.getString("philhealth_number"))
             .withTinNumber(rs.getString("tin_number"))
             .withPagIbigNumber(rs.getString("pagibig_number"))
-            .withStatus(Employee.EmploymentStatus.valueOf(rs.getString("status").toUpperCase()))
+            .withStatus(status)
             .withPosition(rs.getString("position"))
             .withImmediateSupervisor(rs.getString("immediate_supervisor"))
             .withBasicSalary(rs.getBigDecimal("basic_salary") != null ? rs.getBigDecimal("basic_salary") : BigDecimal.ZERO)
