@@ -47,7 +47,6 @@ public class AttendancePage extends JFrame {
         btnAdd.addActionListener(this::onAdd);
         btnEdit.addActionListener(this::onEdit);
         btnDelete.addActionListener(this::onDelete);
-        btnBack.addActionListener(e -> { this.setVisible(false); new HomePage().setVisible(true); });
 
         actions.add(btnRefresh);
         actions.add(btnAdd);
