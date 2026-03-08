@@ -31,7 +31,6 @@ public class ReportsPage extends JFrame {
 
         btnExportEmployees.addActionListener(this::onExportEmployees);
         btnExportPayslips.addActionListener(this::onExportPayslips);
-        btnBack.addActionListener(e -> { this.setVisible(false); new HomePage().setVisible(true); });
 
         JPanel p = new JPanel(new GridLayout(0,1,10,10));
         p.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
