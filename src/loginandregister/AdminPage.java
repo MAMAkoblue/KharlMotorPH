@@ -8,6 +8,7 @@
  import java.util.List;
  import javax.swing.JOptionPane;
  import data.EmployeeDAO;
+ import java.math.BigDecimal;
 /**
  *
  * @author Claire
@@ -454,6 +455,27 @@ public void loadEmployeeData(String ignoredCsvFile) {
     }//GEN-LAST:event_jTableDataBaseMouseClicked
 
     private void jButtonViewEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonViewEmpActionPerformed
+        
+        String selectedId = jTextFieldEmpNum.getText();
+    if (selectedId == null || selectedId.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Select an employee first.");
+        return;
+    }
+
+    try {
+        EmployeeDAO employeeDAO = new EmployeeDAO();
+        data.Employee emp = employeeDAO.findById(selectedId);
+
+        if (emp == null || emp.getBasicSalary() == null || emp.getBasicSalary().compareTo(BigDecimal.ZERO) == 0) {
+            JOptionPane.showMessageDialog(
+                this,
+                "This employee is new / no current payroll record exists in the system.",
+                "No Record Found",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+            return;
+        }
+        
         UserAccount user = new UserAccount();
         user.setEmployeeID(jTextFieldEmpNum.getText());
        
@@ -462,6 +484,16 @@ public void loadEmployeeData(String ignoredCsvFile) {
         ViewEmployee viewEmployee;
         viewEmployee = new ViewEmployee(user);
         viewEmployee.setVisible(true);
+        
+        } catch (Exception ex) {
+        JOptionPane.showMessageDialog(
+            this,
+            "Error loading employee: " + ex.getMessage(),
+            "Error",
+            JOptionPane.ERROR_MESSAGE
+        );
+        ex.printStackTrace();
+    }
     }//GEN-LAST:event_jButtonViewEmpActionPerformed
 
     private void jTextFieldStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldStatusActionPerformed
