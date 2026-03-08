@@ -49,8 +49,7 @@ public class PayrollRunsPage extends JFrame {
         btnCreate.addActionListener(this::onCreate);
         btnCloseRun.addActionListener(this::onClose);
         btnViewPayslips.addActionListener(this::onViewPayslips);
-        btnBack.addActionListener(e -> { this.setVisible(false); new HomePage().setVisible(true); });
-
+        
         actions.add(btnRefresh);
         actions.add(btnCreate);
         actions.add(btnCloseRun);
