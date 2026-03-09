@@ -24,7 +24,6 @@ public class Employee {
         private String hourlyRate;
         private String phoneAllowance;
         private String grossSemiMonthly;
-        
 
     public Employee() {
     }
@@ -176,7 +175,5 @@ public class Employee {
     public void setGrossSemiMonthly( String grossSemiMonthly) {
         this.grossSemiMonthly = grossSemiMonthly;
     }
-
-  
     
 }
