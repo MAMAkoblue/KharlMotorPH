@@ -5,7 +5,7 @@ import DAO.PayslipDAO;
 import DAO.PayslipDAO.Payslip;
 import DAO.EmployeeDAO;
 import Model.Employee;
-import service.PayrollService;
+import Services.PayrollService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

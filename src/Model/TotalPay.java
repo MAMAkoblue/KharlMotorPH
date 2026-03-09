@@ -1,7 +1,7 @@
 package Model;
 
 import Model.Employee;
-import data.WithholdingTax;
+import Services.WithholdingTax;
 
 public class TotalPay {
     

@@ -9,11 +9,11 @@ package ui.SystemPages;
  * @author Claire
  */
 
-import Model.SalaryDeduction;
+import Services.SalaryDeduction;
 import Model.UserAccount;
 import Model.Employee;
 import Model.TotalPay;
-import Model.WithholdingTax;
+import Services.WithholdingTax;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -21,9 +21,9 @@ import javax.swing.*;
 import DAO.AttendanceDAO;
 import java.time.*;
 import java.util.List;
-import loginandregister.EmployeeCSVReader;
-import loginandregister.LeaveRequestForm;
-import loginandregister.Login;
+import DAO.EmployeeCSVReader;
+import ui.LeaveManagement.LeaveRequestForm;
+import ui.Authentication.Login;
 
 
 

@@ -2,7 +2,7 @@ package Services;
 
 import java.math.BigDecimal;
 import Model.Employee;
-import Model.WithholdingTax;
+import Services.WithholdingTax;
 import Model.TotalPay;
 
 /**

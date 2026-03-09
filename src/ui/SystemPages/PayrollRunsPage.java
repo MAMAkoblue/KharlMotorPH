@@ -5,8 +5,6 @@ import DAO.PayrollRunDAO.PayrollRun;
 import DAO.PayslipDAO;
 import DAO.PayslipDAO.Payslip;
 import DAO.EmployeeDAO;
-import DAO.EmployeeDAO; // using data.Employee model
-import DAO.EmployeeDAO; // for compile safety if optimizer removes
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -16,7 +14,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import loginandregister.PayslipsPage;
+import ui.SystemPages.PayslipsPage;
 
 public class PayrollRunsPage extends JFrame {
     private JTable table;

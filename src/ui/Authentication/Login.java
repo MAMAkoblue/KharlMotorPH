@@ -4,13 +4,13 @@
  */
  package ui.Authentication;
 
-import ui.SystemPages.EmployeePage;
-import ui.SystemPages.AdminPage;
-import Model.UserAccount;
+ import ui.SystemPages.EmployeePage;
+ import ui.SystemPages.AdminPage;
+ import Model.UserAccount;
  import DAO.UserAccountDAO;
  import java.sql.SQLException;
  import javax.swing.JOptionPane;
- import org.mindrot.jbcrypt.BCrypt;
+ import Utility.BCrypt;
 
 /**
  *

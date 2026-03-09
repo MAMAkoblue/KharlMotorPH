@@ -1,9 +1,7 @@
 package Services;
 
 import Model.Employee;
-import Model.Employee;
-import Model.SalaryDeduction;
-import Model.SalaryDeduction;
+import Services.SalaryDeduction;
 
 public class WithholdingTax {
 

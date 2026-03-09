@@ -5,7 +5,7 @@
  */
 package ui.EmployeeManagement;
 
-import service.Validator;
+import Services.Validator;
 import javax.swing.JOptionPane;
 import java.text.SimpleDateFormat;
 import java.math.BigDecimal;
