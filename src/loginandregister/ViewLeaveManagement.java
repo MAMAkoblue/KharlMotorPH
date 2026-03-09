@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package loginandregister;
+import util.EmployeeCSVReader;
 import com.opencsv.CSVWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,7 +13,6 @@ import java.io.PrintWriter;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import javax.swing.JOptionPane;
-import loginandregister.EmployeeCSVReader;
 /**
  *
  * @author Aira Joie Piopongco
