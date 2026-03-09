@@ -9,21 +9,32 @@ package loginandregister;
  * @author Claire
  */
 
+import util.EmployeeCSVReader;
 import data.Employee;
 import data.TotalPay;
 import data.WithholdingTax;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.swing.*;
+import data.AttendanceDAO;
+import java.time.*;
+import java.util.List;
+
+
 
 public class EmployeePage extends javax.swing.JFrame {
     private EmployeeCSVReader reader;
     private UserAccount userAccount;
+    private javax.swing.JButton jButtonTimeIn;
+    private javax.swing.JButton jButtonTimeOut;
+    private javax.swing.JLabel jLabelLastTimeIn;
     /**
      * Creates new form EmployeePage
      */
     public EmployeePage(UserAccount userAcc) {
         initComponents();
+        
         
         this.reader = new EmployeeCSVReader("MotorPH.csv");
         this.userAccount = userAcc;
@@ -50,12 +61,69 @@ public class EmployeePage extends javax.swing.JFrame {
         jTextFieldSemiMonthlyRate.setText(employeeData[17]);
         jTextFieldHourlyRate.setText(employeeData[18]);
         
+        // Time In button
+    jButtonTimeIn = new javax.swing.JButton("Time In");
+    jButtonTimeIn.addActionListener(evt -> handleTimeIn(evt));
+    jPanel1.add(jButtonTimeIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 620, 100, 30));
+
+    // Time Out button
+    jButtonTimeOut = new javax.swing.JButton("Time Out");
+    jButtonTimeOut.addActionListener(evt -> handleTimeOut(evt));
+    jPanel1.add(jButtonTimeOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 620, 100, 30));
+    
+    jLabelLastTimeIn = new javax.swing.JLabel("Last Time In: --:--");
+    jLabelLastTimeIn.setFont(new java.awt.Font("Segoe UI", 1, 12)); 
+    jPanel1.add(jLabelLastTimeIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 580, 200, 30));
+        
+    // Refresh the panel
+    jPanel1.revalidate();
+    jPanel1.repaint();
     }
     
     public void calculatePayroll(Employee employee) {
     SalaryDeduction salaryDeduction = new SalaryDeduction();
      salaryDeduction.calculatePayroll(employee);
     }
+    
+    private void handleTimeIn(java.awt.event.ActionEvent evt) {
+    try {
+        AttendanceDAO dao = new AttendanceDAO();
+        AttendanceDAO.Attendance a = new AttendanceDAO.Attendance();
+        a.employeeId = jTextFieldEmpNum.getText();
+        a.date = LocalDate.now().toString();
+        a.timeIn = LocalTime.now().toString();
+        dao.create(a);
+        
+        List<AttendanceDAO.Attendance> records = dao.findByEmployee(a.employeeId);
+        AttendanceDAO.Attendance latest = records.get(records.size() - 1);
+        
+        JOptionPane.showMessageDialog(this, "Time In recorded!");
+        jLabelLastTimeIn.setText("Last Time In: " + latest.timeIn);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+    private void handleTimeOut(java.awt.event.ActionEvent evt) {
+    try {
+        AttendanceDAO dao = new AttendanceDAO();
+        List<AttendanceDAO.Attendance> records = dao.findByEmployee(jTextFieldEmpNum.getText());
+
+        for (AttendanceDAO.Attendance a : records) {
+            if (a.date.equals(LocalDate.now().toString()) && a.timeOut == null) {
+                a.timeOut = LocalTime.now().toString();
+                LocalTime in = LocalTime.parse(a.timeIn);
+                LocalTime out = LocalTime.parse(a.timeOut);
+                a.hoursWorked = Duration.between(in, out).toMinutes() / 60.0;
+                dao.update(a);
+                JOptionPane.showMessageDialog(this, "Time Out recorded!");
+                break;
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -603,7 +671,7 @@ public class EmployeePage extends javax.swing.JFrame {
 //        });
 //    }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JButton jButtonBack;
     private javax.swing.JButton jButtonCompute;
     private javax.swing.JButton jButtonFileLeave;
