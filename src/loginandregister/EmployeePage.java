@@ -9,7 +9,6 @@ package loginandregister;
  * @author Claire
  */
 
-import util.EmployeeCSVReader;
 import data.Employee;
 import data.TotalPay;
 import data.WithholdingTax;

@@ -15,8 +15,6 @@ private List<String[]> employeeData; // Store data from CSV
         employeeData = new ArrayList<>();
         loadDataFromCSV(csvFile);
     }
-    
-    
 
         private void loadDataFromCSV(String csvFile) {
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {

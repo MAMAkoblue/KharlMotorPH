@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package loginandregister;
-import util.EmployeeCSVReader;
 import com.opencsv.CSVWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;

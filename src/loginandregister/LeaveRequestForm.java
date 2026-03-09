@@ -4,7 +4,6 @@
  */
 package loginandregister;
 
-import util.EmployeeCSVReader;
 import com.opencsv.CSVWriter;
 import java.io.FileWriter;
 import java.io.IOException;
