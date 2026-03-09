@@ -1,7 +1,6 @@
 package Services;
 
 import Model.Employee;
-import Model.Employee;
 
 public class SalaryDeduction {
 

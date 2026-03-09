@@ -2,7 +2,6 @@ package ui.SystemPages;
 
 import DAO.AttendanceDAO;
 import DAO.AttendanceDAO.Attendance;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
