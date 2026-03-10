@@ -26,7 +26,7 @@ public class EditEmployee extends javax.swing.JFrame {
      */
     
     
-    public EditEmployee(loginandregister.EmployeeDTO employee) {
+    public EditEmployee(ui.EmployeeManagement.EmployeeDTO employee) {
         initComponents();
         
         employeeID = employee.getEmployeeID();

@@ -362,7 +362,7 @@ public void loadEmployeeData(String ignoredCsvFile) {
         int selectedRowIndex = jTableDataBase.getSelectedRow();
        if(selectedRowIndex!=-1)
        {
-           loginandregister.EmployeeDTO employee = new loginandregister.EmployeeDTO();
+           ui.EmployeeManagement.EmployeeDTO employee = new ui.EmployeeManagement.EmployeeDTO();
            employee.setEmployeeID(jTextFieldEmpNum.getText()); 
            EditEmployee editEmployee = new EditEmployee(employee);
           editEmployee.setVisible(true);
