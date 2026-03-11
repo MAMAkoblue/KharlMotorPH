@@ -13,7 +13,7 @@ public class TotalPay {
         
         //Basic = hourlyrate x Monthvalue
         gross = riceSubsidy + phoneAllowance + clothingAllowance + basicSalary; 
-        netPay = gross - withholdingTax.getTotalDeduction() - withholdingTax.getWithHoldingTax();
+        netPay = gross - withholdingTax.getTotalDeduction() - WithholdingTax.getWithHoldingTax();
     }
     
     // getters and setters

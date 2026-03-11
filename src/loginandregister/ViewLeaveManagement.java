@@ -4,15 +4,11 @@
  */
 package loginandregister;
 import com.opencsv.CSVWriter;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import javax.swing.JOptionPane;
-import loginandregister.EmployeeCSVReader;
 /**
  *
  * @author Aira Joie Piopongco

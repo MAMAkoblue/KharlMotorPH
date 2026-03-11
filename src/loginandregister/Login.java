@@ -8,6 +8,7 @@
  import java.sql.SQLException;
  import javax.swing.JOptionPane;
  import org.mindrot.jbcrypt.BCrypt;
+ import util.SessionManager;
 
 /**
  *
@@ -121,25 +122,30 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO add your handling code here:
-
         // store inputted username & password of users into variables
         userAccount.setUsername(usernameTextfield.getText());
-        userAccount.setPassword(passwordField.getText());
+        userAccount.setPassword(new String(passwordField.getPassword()));
 
-        // check if login is valid
-        boolean validLogin = validateLogin(usernameTextfield.getText(), passwordField.getText());
-
-        if (validLogin) {
-            // + check if acc is admin or not
-            if (userAccount.getRole().equals("Admin")) {
-                AdminPage adminPage = new AdminPage();
-                this.setVisible(false);
-                adminPage.setVisible(true);
-            } else {
-                EmployeePage employeePage = new EmployeePage(this.userAccount);
-                this.setVisible(false);
-                employeePage.setVisible(true);
+        // validate login credentials
+        if (validateLogin(userAccount.getUsername(), userAccount.getPassword())) {
+            try {
+                // Get user account from database
+                UserAccountDAO dao = new UserAccountDAO();
+                UserAccount loggedInUser = dao.findByUsernameAndPassword(userAccount.getUsername(), userAccount.getPassword());
+                
+                if (loggedInUser != null) {
+                    // Set current user in session
+                    SessionManager.getInstance().setCurrentUser(loggedInUser);
+                    
+                    // Navigate to appropriate page based on role
+                    navigateToRoleBasedPage(loggedInUser);
+                    
+                    this.setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Invalid credentials.");
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage());
             }
         } else {
             // if not, it will tell user that the credentials they inputted is invalid
@@ -147,6 +153,39 @@ public class Login extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_loginButtonActionPerformed
+    
+    /**
+     * Navigate to the appropriate page based on user role
+     * @param user the logged-in user
+     */
+    private void navigateToRoleBasedPage(UserAccount user) {
+        switch (user.getRoleEnum()) {
+            case ADMIN:
+                AdminPage adminPage = new AdminPage();
+                adminPage.setVisible(true);
+                break;
+            case HR:
+                // For now, use AdminPage for HR (can be customized later)
+                AdminPage hrPage = new AdminPage();
+                hrPage.setVisible(true);
+                break;
+            case FINANCE:
+                // For now, use AdminPage for Finance (can be customized later)
+                AdminPage financePage = new AdminPage();
+                financePage.setVisible(true);
+                break;
+            case IT:
+                // For now, use AdminPage for IT (can be customized later)
+                AdminPage itPage = new AdminPage();
+                itPage.setVisible(true);
+                break;
+            case EMPLOYEE:
+            default:
+                EmployeePage employeePage = new EmployeePage(user);
+                employeePage.setVisible(true);
+                break;
+        }
+    }
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
