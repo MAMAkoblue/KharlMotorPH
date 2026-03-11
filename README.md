@@ -27,6 +27,7 @@ These technologies support backend development, database management, authenticat
 Project Structure
 The Connectly API follows Django’s recommended modular architecture to maintain clear separation between system components.
 
+
 motorPh payroll
 │
 ├──src
