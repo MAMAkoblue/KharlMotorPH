@@ -10,23 +10,8 @@ import loginandregister.UserAccount;
 public class UserAccountDAO {
 
     public UserAccount findByUsernameAndPassword(String username, String password) throws SQLException {
-        String sql = "SELECT employee_id, username, password, role FROM users WHERE username = ? AND password = ?";
-        Connection conn = Database.getInstance().getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, username);
-            ps.setString(2, password);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    UserAccount ua = new UserAccount();
-                    ua.setEmployeeID(rs.getString("employee_id"));
-                    ua.setUsername(rs.getString("username"));
-                    ua.setPassword(rs.getString("password"));
-                    ua.setRole(rs.getString("role"));
-                    return ua;
-                }
-            }
-        }
-        return null;
+        // First find user by username (password validation is done in validateLogin method)
+        return findByUsername(username);
     }
 
     public UserAccount findByUsername(String username) throws SQLException {
