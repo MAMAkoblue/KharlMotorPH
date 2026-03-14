@@ -19,7 +19,7 @@
         <mkdir dir="${jar.dir}"/>
         <jar destfile="${jar.dir}/${jar.file}" basedir="${classes.dir}">
             <manifest>
-                <attribute name="Main-Class" value="PayrollCalculator"/>
+                <attribute name="Class-Path" value="lib/sqlite-jdbc.jar lib/jcalendar-1.4.jar lib/opencsv-3.8.jar lib/slf4j-api.jar lib/slf4j-simple.jar lib/absolutelayout/AbsoluteLayout.jar lib/JCalendar/jcalendar-1.4.jar"/>
             </manifest>
         </jar>
     </target>

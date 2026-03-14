@@ -6,19 +6,14 @@ package ui.LeaveManagement;
 
 import ui.SystemPages.AdminPage;
 import com.opencsv.CSVWriter;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import javax.swing.JOptionPane;
 import DAO.EmployeeCSVReader;
-/**
- *
- * @author Aira Joie Piopongco
- */
+
+
 public class ViewLeaveManagement extends javax.swing.JFrame {
   private EmployeeCSVReader reader = new EmployeeCSVReader("LeaveManagement.csv");
   private List<String[]> leaveDataBase = reader.getEmployeeData();

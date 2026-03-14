@@ -65,7 +65,7 @@ public class EmployeePage extends javax.swing.JFrame {
         jTextFieldSemiMonthlyRate.setText(employeeData[17]);
         jTextFieldHourlyRate.setText(employeeData[18]);
         
-        // Time In button
+    // Time In button
     jButtonTimeIn = new javax.swing.JButton("Time In");
     jButtonTimeIn.addActionListener(evt -> handleTimeIn(evt));
     jPanel1.add(jButtonTimeIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 620, 100, 30));
