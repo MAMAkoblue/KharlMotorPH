@@ -11,8 +11,25 @@ Aubrey De Fuzman
 Ivone Christel Trinidad
 Liam Cody Sumadsad
 
-Project Overview
 
+Project Overview
+The MotorPH Payroll System is an object-oriented payroll management application developed to automate the payroll processing of employees in MotorPH. The system manages employee records, attendance information, and payroll computations to improve the efficiency and accuracy of payroll operations.
+
+The application is designed using object-oriented programming (OOP) principles, where core business entities such as employees are represented as classes and system functionalities are organized into modular components. The system reads employee data from external sources such as CSV files, processes payroll-related information, and presents the results through user interface pages.
+
+The system architecture separates responsibilities across different components. Core business objects handle payroll data and computations, helper classes manage tasks such as file reading and data transfer, and user interface pages allow users to interact with the system for operations such as employee management, attendance viewing, and payroll generation.
+
+Key capabilities of the MotorPH Payroll System include:
+- Managing and storing employee information
+- Reading employee records from CSV files
+- Viewing and tracking employee attendance
+- Generating payroll runs for employees
+- Supporting user login and registration
+- Displaying payroll and attendance data through user interface pages
+
+The project demonstrates the practical implementation of OOP concepts such as encapsulation, abstraction, inheritance, and modular system design. It was developed as part of the MO-IT110 Object-Oriented Programming course in the Bachelor of Science in Information Technology (BSIT) program.
+
+Overall, the MotorPH Payroll System provides a structured and automated approach to payroll processing while showcasing fundamental software engineering and object-oriented programming practices.
 
 
 Technologies Used
