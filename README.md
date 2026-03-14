@@ -25,7 +25,6 @@ SQLite
 These technologies support backend development, database management, authentication mechanisms, and collaborative version control.
 
 Project Structure
-The Connectly API follows Django’s recommended modular architecture to maintain clear separation between system components.
 
 ```text
 motorPh payroll
