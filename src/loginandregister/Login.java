@@ -128,25 +128,13 @@ public class Login extends javax.swing.JFrame {
 
         // validate login credentials
         if (validateLogin(userAccount.getUsername(), userAccount.getPassword())) {
-            try {
-                // Get user account from database
-                UserAccountDAO dao = new UserAccountDAO();
-                UserAccount loggedInUser = dao.findByUsernameAndPassword(userAccount.getUsername(), userAccount.getPassword());
-                
-                if (loggedInUser != null) {
-                    // Set current user in session
-                    SessionManager.getInstance().setCurrentUser(loggedInUser);
-                    
-                    // Navigate to appropriate page based on role
-                    navigateToRoleBasedPage(loggedInUser);
-                    
-                    this.setVisible(false);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Invalid credentials.");
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage());
-            }
+            // Set current user in session (userAccount is already populated by validateLogin)
+            SessionManager.getInstance().setCurrentUser(userAccount);
+            
+            // Navigate to appropriate page based on role
+            navigateToRoleBasedPage(userAccount);
+            
+            this.setVisible(false);
         } else {
             // if not, it will tell user that the credentials they inputted is invalid
             JOptionPane.showMessageDialog(this, "Invalid credentials.");
@@ -218,7 +206,6 @@ public class Login extends javax.swing.JFrame {
                 if (ok) {
                     this.userAccount.setEmployeeID(found.getEmployeeID());
                     this.userAccount.setUsername(found.getUsername());
-                    this.userAccount.setPassword("");
                     this.userAccount.setRole(found.getRole());
                     return true;
                 }
