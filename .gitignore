@@ -1,0 +1,34 @@
+# Build directories
+build/
+dist/
+nbproject/private/
+
+# IDE files
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IMPORTANT: Allow JAR files in lib directory
+# This ensures team members have required libraries
+!lib/*.jar
+!lib/**/*.jar
+
+# Exclude other binary files but allow our specific libraries
+*.class
+*.jar
+!lib/sqlite-jdbc.jar
+!lib/JCalendar/jcalendar-1.4.jar
+!lib/absolutelayout/AbsoluteLayout.jar
+!lib/opencsv-3.8.jar
+!lib/slf4j-api.jar
+!lib/slf4j-simple.jar
+!lib/CopyLibs/*.jar
+
+# Temporary files
+*.tmp
+*.temp
+*.log
