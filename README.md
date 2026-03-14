@@ -41,12 +41,17 @@ motorPh payroll
 │
 ├── Model
 │   ├── Employee.java
+│   ├── Permission.java
+│   ├── Role.java
+│   ├── RolePermission.java
 │   ├── TotalPay.java
 │   └── UserAccount.java
 │
 ├── Services
 │   ├── EmployeeService.Java
 │   ├── PayrollService.java
+│   ├── RBACService.java
+│   ├── SessionManager.java
 │   ├── SalaryDeduction.java
 │   ├── Validator.java
 │   └── WithholdingTax.java
@@ -70,6 +75,7 @@ motorPh payroll
 │   │   └──ViewLeaveManagement.java
 │   ├──SupportingUI
 │   │   ├──NeonBorderPanel.java
+│   │   ├──RBACUIHelper.java
 │   │   └──jTextFieldEmpNum.java
 │   └──SystemPages
 │   │   ├──AdminPage.form
