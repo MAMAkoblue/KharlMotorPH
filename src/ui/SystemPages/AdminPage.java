@@ -16,6 +16,8 @@ import ui.EmployeeManagement.EditEmployee;
 import ui.Authentication.Login;
 import ui.EmployeeManagement.ViewEmployee;
 import ui.LeaveManagement.ViewLeaveManagement;
+import ui.SupportingUI.RBACUIHelper;
+import Services.SessionManager;
 /**
  *
  * @author Claire
@@ -27,12 +29,16 @@ public class AdminPage extends javax.swing.JFrame {
      */
     public AdminPage() {
         initComponents();
-        
+        applyRBAC();
     }
-
+private void applyRBAC() {
+    RBACUIHelper.setButtonEnabled(jButtonCreateRec, "CREATE_EMPLOYEE");
+    RBACUIHelper.setButtonEnabled(jButtonEditRec, "EDIT_EMPLOYEE");
+    RBACUIHelper.setButtonEnabled(jButtonDeleteRec, "DELETE_EMPLOYEE");
+    RBACUIHelper.setButtonEnabled(jButtonViewEmp, "VIEW_EMPLOYEE");
     
-    
-    
+    RBACUIHelper.setButtonEnabled(jButtonLeaveManagement, "view_all_leave_requests");
+}
     
 public void loadEmployeeData() {
     String[] columnNames = {"ID", "Last Name", "First Name", "Birthday", "Address", "Phone Number", 
@@ -455,8 +461,12 @@ public void loadEmployeeData(String ignoredCsvFile) {
          jTextFieldPosition.setText(model.getValueAt(SelectedRowIndex, 11).toString());
          jTextFieldStatus.setText(model.getValueAt(SelectedRowIndex, 10).toString());
          
-         jButtonDeleteRec.setEnabled(true);
-         jButtonEditRec.setEnabled(true);
+         if(SessionManager.getInstance().canAccessFeature("EDIT_EMPLOYEE")) {
+            jButtonEditRec.setEnabled(true);
+        }
+         if(SessionManager.getInstance().canAccessFeature("DELETE_EMPLOYEE")) {
+            jButtonDeleteRec.setEnabled(true);
+        }
          jButtonClear.setEnabled(true);
          jButtonViewEmp.setEnabled(true);
     }//GEN-LAST:event_jTableDataBaseMouseClicked
