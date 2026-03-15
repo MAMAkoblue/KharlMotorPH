@@ -52,7 +52,7 @@ public class RolePermission {
     private static Set<Permission> getHRPermissions() {
         return EnumSet.of(
             // Employee Management
-            Permission.CREATE_EMPLOYEE, Permission.VIEW_ALL_EMPLOYEES,
+            Permission.CREATE_EMPLOYEE,Permission.EDIT_EMPLOYEE, Permission.VIEW_ALL_EMPLOYEES,
             // Leave Management
             Permission.APPROVE_LEAVE, Permission.VIEW_ALL_LEAVE_REQUESTS,
             // Reports
